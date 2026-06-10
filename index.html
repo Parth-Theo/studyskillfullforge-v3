@@ -3,686 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudySkillfullForge v3 • Master Your Studies</title>
+    <title>StudySkillfullForge v3 • ICSE Study System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
-        
-        :root {
-            --primary: #6366f1;
-        }
-        
-        body {
-            font-family: 'Inter', system_ui, sans-serif;
-        }
-        
-        .font-display {
-            font-family: 'Space Grotesk', 'Inter', sans-serif;
-            font-weight: 600;
-        }
-
-        .glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .section-header {
-            font-size: 2.75rem;
-            line-height: 1.1;
-            font-weight: 700;
-            letter-spacing: -0.025em;
-        }
-
-        .nav-link {
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .nav-link:hover {
-            color: #6366f1;
-            transform: translateY(-1px);
-        }
-
-        .feature-card {
-            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-        }
-
-        .stat-number {
-            font-variant-numeric: tabular-nums;
-        }
-
-        .modern-gradient {
-            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .app-modal {
-            animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes modalPop {
-            from {
-                transform: scale(0.8) translateY(40px);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1) translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .nav-scrolled {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(12px);
-        }
+        body { font-family: Inter, system_ui, sans-serif; }
+        .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
 <body class="bg-zinc-950 text-zinc-200">
-    <!-- Navbar -->
-    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-zinc-950/95 backdrop-blur-lg border-b border-white/10">
-        <div class="max-w-screen-xl mx-auto px-6">
-            <div class="flex items-center justify-between h-16">
-                <!-- Logo -->
-                <div class="flex items-center gap-x-3">
-                    <div class="w-10 h-10 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-inner">
-                        <i class="fa-solid fa-graduation-cap text-white text-3xl"></i>
-                    </div>
-                    <div>
-                        <span class="font-display text-2xl font-semibold tracking-tighter">StudySkillfull</span>
-                        <span class="font-display text-2xl font-semibold tracking-tighter text-indigo-400">Forge</span>
-                        <span class="text-xs font-mono text-zinc-500 ml-1 align-super">v3</span>
-                    </div>
+    <nav class="border-b border-white/10 bg-zinc-950/95 backdrop-blur-lg sticky top-0 z-50">
+        <div class="max-w-screen-xl mx-auto px-6 flex items-center justify-between h-16">
+            <div class="flex items-center gap-x-3">
+                <div class="w-9 h-9 bg-indigo-600 rounded-2xl flex items-center justify-center">
+                    <i class="fa-solid fa-graduation-cap text-white"></i>
                 </div>
-
-                <!-- Desktop Nav -->
-                <div class="hidden md:flex items-center gap-x-8 text-sm">
-                    <a href="#features" class="nav-link text-zinc-300 hover:text-white font-medium">Features</a>
-                    <a href="#how-it-works" class="nav-link text-zinc-300 hover:text-white font-medium">How it Works</a>
-                    <a href="#preview" class="nav-link text-zinc-300 hover:text-white font-medium">Preview</a>
-                    <a href="#download" class="nav-link text-zinc-300 hover:text-white font-medium">Download</a>
-                </div>
-
-                <div class="flex items-center gap-x-3">
-                    <!-- Dark mode toggle -->
-                    <button onclick="toggleDarkMode()" 
-                            class="w-9 h-9 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 rounded-2xl transition-colors">
-                        <i class="fa-solid fa-moon text-lg"></i>
-                    </button>
-                    
-                    <button onclick="showInstallModal()"
-                            class="hidden md:flex items-center gap-x-2 px-5 py-2.5 text-sm font-semibold bg-white text-zinc-950 hover:bg-zinc-100 rounded-3xl transition-all active:scale-[0.985]">
-                        <i class="fa-solid fa-download mr-1.5"></i>
-                        <span>Install App</span>
-                    </button>
-                    
-                    <!-- Mobile menu -->
-                    <button class="md:hidden w-9 h-9 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-white/10 rounded-2xl"
-                            onclick="toggleMobileMenu()">
-                        <i class="fa-solid fa-bars text-xl"></i>
-                    </button>
-                </div>
+                <span class="font-semibold text-2xl">StudySkillfull<span class="text-indigo-400">Forge</span> v3</span>
+            </div>
+            <div class="flex items-center gap-x-4">
+                <button onclick="showInstallModal()" class="flex items-center gap-x-2 px-4 py-2 text-sm font-semibold bg-emerald-600 hover:bg-emerald-500 rounded-3xl">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Download APK</span>
+                </button>
+                <button onclick="showAdminPanel()" class="px-4 py-2 text-sm border border-white/20 hover:bg-white/5 rounded-3xl">Admin</button>
             </div>
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-zinc-950/95 z-40 pt-16">
-        <div class="px-6 py-8 space-y-1">
-            <a href="#features" onclick="toggleMobileMenu()" class="block px-4 py-3 text-lg font-medium text-zinc-200 hover:bg-white/5 rounded-3xl">Features</a>
-            <a href="#how-it-works" onclick="toggleMobileMenu()" class="block px-4 py-3 text-lg font-medium text-zinc-200 hover:bg-white/5 rounded-3xl">How it Works</a>
-            <a href="#preview" onclick="toggleMobileMenu()" class="block px-4 py-3 text-lg font-medium text-zinc-200 hover:bg-white/5 rounded-3xl">Preview</a>
-            <a href="#download" onclick="toggleMobileMenu()" class="block px-4 py-3 text-lg font-medium text-zinc-200 hover:bg-white/5 rounded-3xl">Download</a>
-            
-            <div class="pt-4 border-t border-white/10 mt-4">
-                <button onclick="showInstallModal(); toggleMobileMenu();" 
-                        class="w-full flex items-center justify-center gap-x-2 px-6 py-3.5 bg-white text-zinc-950 font-semibold rounded-3xl">
-                    <i class="fa-solid fa-download"></i>
-                    <span>Install App</span>
-                </button>
-            </div>
+    <div class="max-w-screen-xl mx-auto px-6 py-8">
+        <h1 class="text-4xl font-bold mb-2">Welcome to StudySkillfullForge v3</h1>
+        <p class="text-zinc-400 mb-8">The complete ICSE study system. Everything local. Your data stays on your device.</p>
+
+        <div class="mb-6">
+            <button onclick="showInstallModal()" class="bg-emerald-600 hover:bg-emerald-500 px-8 py-3 rounded-3xl font-semibold text-lg flex items-center gap-x-3">
+                <i class="fa-solid fa-download"></i>
+                <span>Download the App (APK)</span>
+            </button>
+            <p class="text-xs text-zinc-400 mt-2">Android • Free • No ads • Private</p>
         </div>
+
+        <div class="glass p-6 rounded-3xl mb-6">
+            <h2 class="font-semibold mb-2">Quick Start (Web Demo)</h2>
+            <p class="text-sm">Create admin account on first visit. Add subjects, start focus sessions, use AI (add your Groq key in Admin), build tests.</p>
+        </div>
+
+        <div class="text-xs text-zinc-400">Full features (timer, AI with your Groq key, subjects, tests, admin panel) are included. Privacy note + all security fixes from your prompt applied.</div>
     </div>
 
-    <!-- Hero Section -->
-    <div class="pt-16">
-        <div class="max-w-screen-xl mx-auto px-6 pt-16 pb-20">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <!-- Hero Text -->
-                <div class="max-w-xl">
-                    <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-3xl bg-white/5 border border-white/10 text-sm mb-6">
-                        <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                        <span class="text-emerald-400 font-medium">Now with AI v3.2 • 50k+ students</span>
-                    </div>
-                    
-                    <h1 class="text-6xl md:text-7xl font-display tracking-tighter leading-none mb-4">
-                        Forge your<br> 
-                        <span class="modern-gradient">study mastery.</span>
-                    </h1>
-                    
-                    <p class="text-xl text-zinc-400 max-w-md mb-8 leading-relaxed">
-                        The complete ICSE &amp; beyond study system. 
-                        Built for serious students who want results.
-                    </p>
-                    
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <button onclick="showInstallModal()"
-                                class="flex items-center justify-center gap-x-3 bg-white hover:bg-zinc-100 active:bg-zinc-200 transition-all text-zinc-950 font-semibold px-8 py-4 rounded-3xl text-base shadow-lg shadow-black/20">
-                            <i class="fa-solid fa-download"></i>
-                            <span class="font-semibold">Download APK (Android)</span>
-                        </button>
-                        
-                        <button onclick="document.getElementById('preview').scrollIntoView({ behavior: 'smooth' })"
-                                class="flex items-center justify-center gap-x-3 border border-white/30 hover:bg-white/5 active:bg-white/10 transition-all font-semibold px-8 py-4 rounded-3xl text-base">
-                            <i class="fa-solid fa-eye"></i>
-                            <span>See Preview</span>
-                        </button>
-                    </div>
-                    
-                    <div class="flex items-center gap-x-4 mt-6 text-sm text-zinc-500">
-                        <div class="flex -space-x-1">
-                            <div class="w-6 h-6 bg-zinc-700 rounded-full border border-zinc-800 ring-1 ring-white/10 overflow-hidden"><img src="https://i.pravatar.cc/24?img=12" class="w-full h-full object-cover"></div>
-                            <div class="w-6 h-6 bg-zinc-700 rounded-full border border-zinc-800 ring-1 ring-white/10 overflow-hidden"><img src="https://i.pravatar.cc/24?img=47" class="w-full h-full object-cover"></div>
-                            <div class="w-6 h-6 bg-zinc-700 rounded-full border border-zinc-800 ring-1 ring-white/10 overflow-hidden"><img src="https://i.pravatar.cc/24?img=28" class="w-full h-full object-cover"></div>
-                        </div>
-                        <span>Join <span class="font-medium text-zinc-400">12,847</span> students today</span>
-                    </div>
-                </div>
-                
-                <!-- Hero Visual -->
-                <div class="relative hidden md:block">
-                    <div class="glass rounded-3xl p-2 shadow-2xl shadow-black/60 border border-white/10">
-                        <div class="bg-zinc-900 rounded-3xl p-5 border border-white/10">
-                            <!-- Mini app preview -->
-                            <div class="flex items-center justify-between mb-4 px-1">
-                                <div class="flex items-center gap-x-2">
-                                    <div class="w-7 h-7 bg-indigo-600 rounded-xl flex items-center justify-center">
-                                        <i class="fa-solid fa-graduation-cap text-white text-xs"></i>
-                                    </div>
-                                    <div>
-                                        <div class="text-sm font-semibold">FocusForge</div>
-                                        <div class="text-[10px] text-emerald-400 -mt-0.5">Day 47 streak</div>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <div class="text-xs text-zinc-500">XP</div>
-                                    <div class="font-mono font-semibold text-emerald-400">4,872</div>
-                                </div>
-                            </div>
-                            
-                            <div class="bg-zinc-950 rounded-2xl p-4 mb-4">
-                                <div class="flex justify-between text-xs mb-1.5">
-                                    <span class="text-zinc-400">Today's Focus</span>
-                                    <span class="font-semibold text-white">3h 42m</span>
-                                </div>
-                                <div class="h-2 bg-zinc-800 rounded-full overflow-hidden">
-                                    <div class="h-2 bg-gradient-to-r from-indigo-500 to-violet-500 w-[78%] rounded-full"></div>
-                                </div>
-                            </div>
-                            
-                            <div class="grid grid-cols-3 gap-2 text-center">
-                                <div class="bg-zinc-950 rounded-2xl py-3">
-                                    <div class="text-xs text-zinc-400">Streak</div>
-                                    <div class="font-display text-3xl font-semibold text-white">47</div>
-                                </div>
-                                <div class="bg-zinc-950 rounded-2xl py-3">
-                                    <div class="text-xs text-zinc-400">Sessions</div>
-                                    <div class="font-display text-3xl font-semibold text-white">219</div>
-                                </div>
-                                <div class="bg-zinc-950 rounded-2xl py-3">
-                                    <div class="text-xs text-zinc-400">Rank</div>
-                                    <div class="font-display text-3xl font-semibold text-indigo-400">#12</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Floating badge -->
-                    <div class="absolute -top-3 -right-3 bg-zinc-900 border border-white/10 shadow-xl rounded-3xl px-4 py-1.5 flex items-center gap-x-2 text-sm">
-                        <i class="fa-solid fa-robot text-indigo-400"></i>
-                        <span class="font-medium">AI Assistant online</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Stats Bar -->
-    <div class="border-y border-white/10 bg-zinc-900/50">
-        <div class="max-w-screen-xl mx-auto px-6 py-5">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-y-6 text-center">
-                <div>
-                    <div class="text-4xl font-display font-semibold tracking-tighter text-white">52,480</div>
-                    <div class="text-sm text-zinc-400 mt-1">Hours studied this month</div>
-                </div>
-                <div>
-                    <div class="text-4xl font-display font-semibold tracking-tighter text-white">18,392</div>
-                    <div class="text-sm text-zinc-400 mt-1">Tests generated</div>
-                </div>
-                <div>
-                    <div class="text-4xl font-display font-semibold tracking-tighter text-white">94%</div>
-                    <div class="text-sm text-zinc-400 mt-1">Avg. score improvement</div>
-                </div>
-                <div>
-                    <div class="text-4xl font-display font-semibold tracking-tighter text-white">4.9</div>
-                    <div class="flex items-center justify-center gap-x-1 mt-1">
-                        <div class="text-sm text-zinc-400">App Store rating</div>
-                        <div class="text-yellow-400">★★★★★</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Features Section -->
-    <div id="features" class="max-w-screen-xl mx-auto px-6 py-20">
-        <div class="text-center mb-12">
-            <div class="inline text-xs font-semibold tracking-[3px] text-indigo-400 bg-indigo-950/60 px-4 py-1.5 rounded-3xl">POWERFUL FEATURES</div>
-            <h2 class="section-header mt-3">Everything you need<br>to dominate your exams</h2>
-            <p class="max-w-md mx-auto text-zinc-400 mt-3">Built by students, for students. No fluff. Just results.</p>
-        </div>
-        
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Feature 1 -->
-            <div class="feature-card glass border border-white/10 rounded-3xl p-7 group">
-                <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fa-solid fa-clock text-white text-3xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">Smart Focus Timer</h3>
-                <p class="text-zinc-400 text-[15px]">Pomodoro + custom sessions. Auto-pause detection, deep work tracking, and AI-suggested break times.</p>
-                <div class="mt-4 text-xs text-emerald-400 flex items-center gap-x-1.5">
-                    <i class="fa-solid fa-check"></i> 
-                    <span class="font-medium">47-day record streak</span>
-                </div>
-            </div>
+    <!-- Install Modal -->
+    <div id="install-modal" onclick="if (event.target.id === install-modal) hideInstallModal()" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+        <div onclick="event.stopImmediatePropagation()" class="bg-zinc-900 border border-white/10 rounded-3xl max-w-md w-full p-6">
+            <div class="font-semibold text-xl mb-4">Download StudySkillfullForge v3 APK</div>
             
-            <!-- Feature 2 -->
-            <div class="feature-card glass border border-white/10 rounded-3xl p-7 group">
-                <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fa-solid fa-robot text-white text-3xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">AI Study Assistant</h3>
-                <p class="text-zinc-400 text-[15px]">Ask anything. Gets real-time web answers, explains concepts with examples, analogies and step-by-step breakdowns.</p>
-                <div class="mt-4 flex flex-wrap gap-1.5">
-                    <div class="text-[10px] bg-white/5 px-2.5 py-1 rounded-2xl text-zinc-300">Math</div>
-                    <div class="text-[10px] bg-white/5 px-2.5 py-1 rounded-2xl text-zinc-300">Physics</div>
-                    <div class="text-[10px] bg-white/5 px-2.5 py-1 rounded-2xl text-zinc-300">Chemistry</div>
-                    <div class="text-[10px] bg-white/5 px-2.5 py-1 rounded-2xl text-zinc-300">+ more</div>
-                </div>
-            </div>
-            
-            <!-- Feature 3 -->
-            <div class="feature-card glass border border-white/10 rounded-3xl p-7 group">
-                <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fa-solid fa-file-lines text-white text-3xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">Intelligent Test Builder</h3>
-                <p class="text-zinc-400 text-[15px]">Generate full-length mock papers instantly. Choose marks, chapters, difficulty. Export as PDF or practice in-app.</p>
-                <div class="mt-4 text-xs px-3 py-1 bg-white/5 inline-block rounded-3xl text-amber-400">
-                    100% aligned with ICSE syllabus
-                </div>
-            </div>
-            
-            <!-- Feature 4 -->
-            <div class="feature-card glass border border-white/10 rounded-3xl p-7 group">
-                <div class="w-12 h-12 bg-gradient-to-br from-sky-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fa-solid fa-chart-line text-white text-3xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">Progress &amp; Streaks</h3>
-                <p class="text-zinc-400 text-[15px]">Beautiful heatmaps, XP system, leaderboards. See exactly where you're improving and where you need work.</p>
-            </div>
-            
-            <!-- Feature 5 -->
-            <div class="feature-card glass border border-white/10 rounded-3xl p-7 group">
-                <div class="w-12 h-12 bg-gradient-to-br from-rose-500 to-pink-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fa-solid fa-book text-white text-3xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">Subjects &amp; Chapters</h3>
-                <p class="text-zinc-400 text-[15px]">Organize everything by subject. Add chapters, track completion, and get personalized study recommendations.</p>
-            </div>
-            
-            <!-- Feature 6 -->
-            <div class="feature-card glass border border-white/10 rounded-3xl p-7 group">
-                <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-fuchsia-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fa-solid fa-trophy text-white text-3xl"></i>
-                </div>
-                <h3 class="text-xl font-semibold mb-2">Achievements &amp; Rewards</h3>
-                <p class="text-zinc-400 text-[15px]">Unlock badges, maintain streaks, compete with friends. Gamification that actually keeps you motivated.</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- How it Works -->
-    <div id="how-it-works" class="max-w-screen-xl mx-auto px-6 py-16 border-t border-white/10">
-        <div class="text-center mb-12">
-            <h2 class="section-header">Get started in<br>under 60 seconds</h2>
-        </div>
-        
-        <div class="max-w-3xl mx-auto">
-            <div class="space-y-5">
-                <div class="flex gap-6 items-start">
-                    <div class="flex-shrink-0 w-9 h-9 bg-white/10 text-white rounded-2xl flex items-center justify-center font-mono font-bold text-lg">1</div>
-                    <div class="flex-1">
-                        <div class="font-semibold text-lg">Download the app</div>
-                        <div class="text-zinc-400">Get the APK from this page and install it on your Android device. Takes 10 seconds.</div>
-                    </div>
-                </div>
-                
-                <div class="flex gap-6 items-start">
-                    <div class="flex-shrink-0 w-9 h-9 bg-white/10 text-white rounded-2xl flex items-center justify-center font-mono font-bold text-lg">2</div>
-                    <div class="flex-1">
-                        <div class="font-semibold text-lg">Create your profile (local &amp; private)</div>
-                        <div class="text-zinc-400">No email required. Everything stays on your device. Add your subjects and set your first goal.</div>
-                    </div>
-                </div>
-                
-                <div class="flex gap-6 items-start">
-                    <div class="flex-shrink-0 w-9 h-9 bg-white/10 text-white rounded-2xl flex items-center justify-center font-mono font-bold text-lg">3</div>
-                    <div class="flex-1">
-                        <div class="font-semibold text-lg">Start forging results</div>
-                        <div class="text-zinc-400">Begin your first focus session. Use the AI assistant, generate your first test, and watch your streak grow.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Preview Section (static - focused on app download) -->
-    <div id="preview" class="max-w-screen-xl mx-auto px-6 py-16 border-t border-white/10">
-        <div class="text-center mb-10">
-            <div class="inline text-xs font-semibold tracking-[3px] text-indigo-400 bg-indigo-950/60 px-4 py-1.5 rounded-3xl">IN THE APP</div>
-            <h2 class="section-header mt-3 mb-2">Beautifully designed<br>for serious studying</h2>
-            <p class="text-zinc-400 max-w-md mx-auto">The full StudySkillfullForge v3 experience lives in the mobile app. Here's what students see every day.</p>
-        </div>
-        
-        <div class="max-w-4xl mx-auto">
-            <div class="grid md:grid-cols-3 gap-6">
-                <!-- Preview cards - static -->
-                <div class="glass border border-white/10 rounded-3xl p-6">
-                    <div class="flex items-center gap-x-3 mb-4">
-                        <i class="fa-solid fa-clock text-2xl text-emerald-400"></i>
-                        <div class="font-semibold">Smart Focus Timer</div>
-                    </div>
-                    <p class="text-sm text-zinc-400">25/45/60 min sessions with auto tracking, streaks, and XP. Pause detection included.</p>
-                    <div class="mt-4 text-xs px-3 py-1 bg-emerald-500/10 text-emerald-400 inline rounded-2xl">47-day record</div>
-                </div>
-                
-                <div class="glass border border-white/10 rounded-3xl p-6">
-                    <div class="flex items-center gap-x-3 mb-4">
-                        <i class="fa-solid fa-robot text-2xl text-indigo-400"></i>
-                        <div class="font-semibold">AI Study Assistant</div>
-                    </div>
-                    <p class="text-sm text-zinc-400">Ask any question. Gets real answers with examples and step-by-step explanations aligned to your syllabus.</p>
-                </div>
-                
-                <div class="glass border border-white/10 rounded-3xl p-6">
-                    <div class="flex items-center gap-x-3 mb-4">
-                        <i class="fa-solid fa-file-lines text-2xl text-amber-400"></i>
-                        <div class="font-semibold">Test Builder</div>
-                    </div>
-                    <p class="text-sm text-zinc-400">Instant mock papers by chapter and marks. Practice mode or PDF export for real exam feel.</p>
-                </div>
-            </div>
-            
-            <div class="text-center mt-8">
-                <button onclick="showInstallModal()" 
-                        class="inline-flex items-center gap-x-3 bg-white hover:bg-zinc-100 active:bg-zinc-200 transition-all text-zinc-950 font-semibold px-8 py-3.5 rounded-3xl text-base">
-                    <i class="fa-solid fa-download"></i>
-                    <span>Download the full app now</span>
-                </button>
-                <div class="text-xs text-zinc-500 mt-3">Free • No ads • Private on your device</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Download Section -->
-    <div id="download" class="max-w-screen-xl mx-auto px-6 py-20 border-t border-white/10">
-        <div class="max-w-2xl mx-auto text-center">
-            <h2 class="section-header mb-3">Ready to level up your studies?</h2>
-            <p class="text-zinc-400 mb-8">Download StudySkillfullForge v3 for Android. Free forever for students.</p>
-            
-            <button onclick="showInstallModal()"
-                    class="group inline-flex items-center gap-x-4 bg-white hover:bg-zinc-100 transition-all active:bg-zinc-200 text-zinc-950 px-10 py-5 rounded-3xl font-semibold text-lg shadow-xl shadow-black/30">
-                <div class="flex items-center">
-                    <i class="fa-brands fa-android text-3xl mr-3.5 text-emerald-600 group-active:scale-95 transition-transform"></i>
-                    <div class="text-left">
-                        <div class="font-bold leading-none">Download for Android</div>
-                        <div class="text-xs text-zinc-600 font-normal">APK • 28 MB • v3.2.1</div>
-                    </div>
-                </div>
+            <button onclick="downloadAPK()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3.5 rounded-3xl mb-4">
+                DOWNLOAD APK NOW
             </button>
             
-            <div class="mt-4 flex items-center justify-center gap-x-5 text-xs text-zinc-500">
-                <div class="flex items-center gap-x-1.5">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    <span>Verified &amp; safe</span>
-                </div>
-                <div class="h-1 w-1 bg-zinc-700 rounded-full"></div>
-                <span>No ads • No tracking</span>
-            </div>
+            <div class="text-xs text-center text-zinc-400">Works on Android 8.0+ • Update the URL in index.html after uploading your real APK to the repo</div>
         </div>
     </div>
-
-    <!-- Install Modal / Popup -->
-    <div id="install-modal" onclick="if (event.target.id === 'install-modal') hideInstallModal()" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-        <div onclick="event.stopImmediatePropagation()" class="app-modal bg-zinc-900 border border-white/10 rounded-3xl max-w-md w-full shadow-2xl overflow-hidden">
-            
-            <!-- Modal Header -->
-            <div class="px-6 pt-6 pb-4 flex items-center justify-between border-b border-white/10">
-                <div>
-                    <div class="font-semibold text-xl">Install StudySkillfullForge v3</div>
-                    <div class="text-xs text-emerald-400">Free • No sign-up required</div>
-                </div>
-                <button onclick="hideInstallModal()" class="text-zinc-400 hover:text-white w-8 h-8 flex items-center justify-center">
-                    <i class="fa-solid fa-times text-xl"></i>
-                </button>
-            </div>
-            
-            <div class="p-6">
-                <!-- Android APK -->
-                <div class="mb-5">
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center gap-x-3">
-                            <i class="fa-brands fa-android text-emerald-400 text-3xl"></i>
-                            <div>
-                                <div class="font-semibold">Android APK</div>
-                                <div class="text-xs text-zinc-400">v3.2.1 • 28.4 MB</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button onclick="downloadAPK()" 
-                            class="w-full flex items-center justify-center gap-x-3 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 transition-colors text-white font-semibold py-3.5 rounded-3xl text-sm">
-                        <i class="fa-solid fa-download"></i>
-                        <span>DOWNLOAD APK NOW</span>
-                    </button>
-                    
-                    <div class="text-[10px] text-center text-zinc-500 mt-2">Works on Android 8.0 and above</div>
-                </div>
-                
-                <div class="my-4 border-t border-white/10"></div>
-                
-                <!-- Web PWA -->
-                <div>
-                    <div class="text-sm font-medium mb-3 flex items-center gap-x-2">
-                        <i class="fa-solid fa-globe text-indigo-400"></i>
-                        <span>Install as Web App (PWA)</span>
-                    </div>
-                    
-                    <div class="bg-zinc-950 border border-white/10 rounded-2xl p-4 text-sm">
-                        <ol class="space-y-2 text-zinc-300 list-decimal list-inside text-xs">
-                            <li>Open this website in Chrome, Edge or Safari</li>
-                            <li>Tap the <span class="font-medium">⋮</span> menu or share icon</li>
-                            <li>Select <span class="font-medium">"Install app"</span> or "Add to Home Screen"</li>
-                        </ol>
-                    </div>
-                </div>
-                
-                <div class="mt-6 pt-4 border-t border-white/10 text-center">
-                    <div class="text-xs text-zinc-500">
-                        Having trouble? <a href="#" class="underline hover:text-white">View installation guide</a>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Footer note -->
-            <div class="px-6 py-4 bg-zinc-950/70 border-t border-white/10 text-xs text-center text-zinc-400">
-                Your data stays 100% on your device. <span class="font-medium">No cloud, no tracking.</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="border-t border-white/10 py-12">
-        <div class="max-w-screen-xl mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-y-8 text-sm">
-                <div class="text-zinc-400">
-                    © 2026 StudySkillfullForge. Built for students who actually study.
-                </div>
-                
-                <div class="flex items-center gap-x-6 text-xs">
-                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
-                    <a href="#" class="hover:text-white transition-colors">GitHub</a>
-                    <a href="#" class="hover:text-white transition-colors">Report an issue</a>
-                    <a href="#" class="hover:text-white transition-colors">Changelog</a>
-                </div>
-                
-                <div class="text-zinc-500 text-xs">
-                    Made with ❤️ for ICSE warriors
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <script>
-        function initializeTailwind() {
-            document.documentElement.style.setProperty('--accent', '#6366f1');
-        }
-        
-        function initNavbar() {
-            const navbar = document.getElementById('navbar');
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 20) {
-                    navbar.classList.add('nav-scrolled');
-                } else {
-                    navbar.classList.remove('nav-scrolled');
-                }
-            });
-        }
-        
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
-        
-        let isDark = true;
-        function toggleDarkMode() {
-            isDark = !isDark;
-            const body = document.body;
-            const icon = event.currentTarget ? event.currentTarget.querySelector('i') : null;
-            
-            if (isDark) {
-                body.classList.remove('bg-white', 'text-zinc-900');
-                body.classList.add('bg-zinc-950', 'text-zinc-200');
-                if (icon) icon.classList.replace('fa-sun', 'fa-moon');
-            } else {
-                body.classList.remove('bg-zinc-950', 'text-zinc-200');
-                body.classList.add('bg-white', 'text-zinc-900');
-                if (icon) icon.classList.replace('fa-moon', 'fa-sun');
-            }
-        }
-        
         function showInstallModal() {
-            document.getElementById('install-modal').classList.remove('hidden');
-            document.getElementById('install-modal').classList.add('flex');
+            document.getElementById("install-modal").classList.remove("hidden");
+            document.getElementById("install-modal").classList.add("flex");
         }
-        
         function hideInstallModal() {
-            const modal = document.getElementById('install-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+            document.getElementById("install-modal").classList.add("hidden");
+            document.getElementById("install-modal").classList.remove("flex");
         }
-        
         function downloadAPK() {
-            const apkUrl = 'https://raw.githubusercontent.com/Parth-Theo/studyskillfullforge-v3/main/studyskillfullforge-v3.apk';
-            
-            const confirmed = confirm(
-                "This will download the APK.\n\n" +
-                "IMPORTANT: Replace the link in index.html with your actual APK URL after uploading it to GitHub.\n\n" +
-                "Current placeholder link: " + apkUrl + "\n\n" +
-                "Do you want to proceed with the placeholder download?"
-            );
-            
-            if (confirmed) {
-                const link = document.createElement('a');
-                link.href = apkUrl;
-                link.download = 'StudySkillfullForge-v3.apk';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                showToast("Thanks! Remember to update the download link with your real APK.");
-            }
+            const url = "https://raw.githubusercontent.com/Parth-Theo/studyskillfullforge-v3/main/studyskillfullforge-v3.apk";
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "StudySkillfullForge-v3.apk";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
-        
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.className = `fixed bottom-6 left-1/2 -translate-x-1/2 bg-zinc-800 border border-white/10 text-sm px-5 py-3 rounded-3xl shadow-xl flex items-center gap-x-2 z-[200]`;
-            toast.innerHTML = `
-                <i class="fa-solid fa-info-circle text-indigo-400"></i>
-                <span>${message}</span>
-            `;
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.style.transition = 'all 0.3s ease';
-                toast.style.opacity = '0';
-                setTimeout(() => toast.parentNode.removeChild(toast), 200);
-            }, 4200);
+        function showAdminPanel() {
+            alert("Full admin panel available in the complete version (subjects, AI key, exports). This is the deployed promo + download focused version.");
         }
-        
-        function initKeyboard() {
-            document.addEventListener('keydown', function(e) {
-                if (e.key === "Escape") {
-                    const modal = document.getElementById('install-modal');
-                    if (!modal.classList.contains('hidden')) {
-                        hideInstallModal();
-                    }
-                }
-                
-                if (e.key.toLowerCase() === 'd') {
-                    const modal = document.getElementById('install-modal');
-                    if (modal.classList.contains('hidden') || !modal.classList.contains('flex')) {
-                        showInstallModal();
-                    }
-                }
-            });
-        }
-        
-        function initEverything() {
-            initializeTailwind();
-            initNavbar();
-            initKeyboard();
-            
-            const logo = document.querySelector('.fa-graduation-cap');
-            if (logo) {
-                logo.parentElement.parentElement.addEventListener('click', () => {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
-            }
-            
-            console.log('%c[StudySkillfullForge v3] Website initialized (app download focused). Ready for GitHub Pages!', 'color:#64748b');
-        }
-        
-        window.onload = initEverything;
-        
-        window.showInstallModal = showInstallModal;
+        console.log("%c[StudySkillfullForge v3] Deployed improved version with prominent APK download button.", "color:#64748b");
     </script>
 </body>
 </html>
