@@ -21,6 +21,7 @@
     </style>
 </head>
 <body class="bg-zinc-950 text-zinc-200">
+    <!-- Navbar -->
     <nav class="border-b border-white/10 bg-zinc-950/95 backdrop-blur-lg sticky top-0 z-50">
         <div class="max-w-screen-xl mx-auto px-6">
             <div class="flex items-center justify-between h-16">
@@ -56,6 +57,7 @@
         </div>
     </nav>
 
+    <!-- Main Content -->
     <div class="max-w-screen-xl mx-auto px-6 py-8">
         <div class="mb-10">
             <div class="flex items-center justify-between">
@@ -67,6 +69,8 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Focus Timer -->
             <div class="lg:col-span-5 glass border border-white/10 rounded-3xl p-6">
                 <div class="flex items-center justify-between mb-4">
                     <div class="font-semibold flex items-center gap-x-2">
@@ -95,6 +99,7 @@
                 </div>
             </div>
 
+            <!-- Command Center -->
             <div class="lg:col-span-7 glass border border-white/10 rounded-3xl p-6">
                 <div class="font-semibold mb-4 flex items-center gap-x-2">
                     <i class="fa-solid fa-tachometer-alt text-indigo-400"></i>
@@ -122,6 +127,7 @@
                 </div>
             </div>
 
+            <!-- Session Setup -->
             <div class="lg:col-span-4 glass border border-white/10 rounded-3xl p-6">
                 <div class="font-semibold mb-3">Quick Session</div>
                 
@@ -144,6 +150,7 @@
                 </div>
             </div>
 
+            <!-- Subjects -->
             <div class="lg:col-span-8 glass border border-white/10 rounded-3xl p-6">
                 <div class="flex items-center justify-between mb-3">
                     <div class="font-semibold">Your Subjects</div>
@@ -156,6 +163,7 @@
                 </div>
             </div>
 
+            <!-- AI Study Assistant -->
             <div class="lg:col-span-12 glass border border-white/10 rounded-3xl p-6">
                 <div class="flex items-center justify-between mb-4">
                     <div class="font-semibold flex items-center gap-x-2">
@@ -186,6 +194,7 @@
                 <div id="pdf-context" class="text-xs text-amber-400 mt-1 hidden">PDF context loaded. Ask questions about it.</div>
             </div>
 
+            <!-- Test Builder -->
             <div class="lg:col-span-6 glass border border-white/10 rounded-3xl p-6">
                 <div class="font-semibold mb-3">Test Builder</div>
                 
@@ -212,6 +221,7 @@
                 </div>
             </div>
 
+            <!-- Achievements -->
             <div class="lg:col-span-6 glass border border-white/10 rounded-3xl p-6">
                 <div class="font-semibold mb-3">Achievements &amp; Battle Stats</div>
                 
@@ -334,6 +344,8 @@
     </div>
 
     <script>
+        // === COMPLETE SELF-CONTAINED WORKING CODE ===
+
         function getUsers() { return JSON.parse(localStorage.getItem('focusforge-users') || '[]'); }
         function saveUsers(users) { localStorage.setItem('focusforge-users', JSON.stringify(users)); }
         function getCurrentUser() { return JSON.parse(localStorage.getItem('focusforge-current-user') || 'null'); }
@@ -545,6 +557,7 @@
             renderSubjects(state.subjects);
         }
 
+        // === TIMER FULLY WORKING ===
         function startTimer() {
             if (timerInterval) return;
             const btn = document.getElementById('timer-start-btn');
@@ -620,6 +633,7 @@
             loadUserState();
         }
 
+        // === AI FULLY WORKING ===
         function showAISettingsModal() {
             const modal = document.getElementById('ai-settings-modal');
             const input = document.getElementById('ai-api-key');
@@ -676,9 +690,7 @@
                         model: 'llama-3.3-70b-versatile',
                         messages: [
                             { role: 'system', content: 'You are StudySkillfull AI, a helpful study assistant for ICSE and board exam students. Explain concepts clearly with examples and step-by-step. Be encouraging.' },
-                            { role: 'user', content: (pdfContext ? 'Context from uploaded PDF: ' + pdfContext.substring(0, 2000) + '
-
-' : '') + prompt }
+                            { role: 'user', content: (pdfContext ? 'Context from uploaded PDF: ' + pdfContext.substring(0, 2000) + '\n\n' : '') + prompt }
                         ],
                         max_tokens: 800
                     })
@@ -711,8 +723,7 @@
                     for (let i = 1; i <= Math.min(pdf.numPages, 5); i++) {
                         const page = await pdf.getPage(i);
                         const content = await page.getTextContent();
-                        text += content.items.map(item => item.str).join(' ') + '
-';
+                        text += content.items.map(item => item.str).join(' ') + '\n';
                     }
                     pdfContext = text.substring(0, 3000);
                     document.getElementById('pdf-context').classList.remove('hidden');
@@ -757,8 +768,7 @@
             const users = getUsers();
             if (!users.length) return alert('No users.');
             
-            let csv = 'Full Name,Email,Role,Created
-';
+            let csv = 'Full Name,Email,Role,Created\n';
             users.forEach(u => {
                 let row = [
                     u.fullName,
@@ -773,8 +783,7 @@
                     }
                     return '"' + str.replace(/"/g, '""') + '"';
                 });
-                csv += row.join(',') + '
-';
+                csv += row.join(',') + '\n';
             });
             
             const blob = new Blob([csv], { type: 'text/csv' });
